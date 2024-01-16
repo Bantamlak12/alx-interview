@@ -17,11 +17,12 @@ def minOperations(n: int) -> int:
     if n < 2:
         return 0
 
-    number = n + 1
-    min_operation = 0
+    number_ope = 2
+    min_operations = 0
 
-    for i in range(2, number):
-        while (n % i == 0 and n != 1):
-            min_operation += i
-            n //= i
-    return min_operation
+    while n > 1:
+        while (n % number_ope == 0):
+            min_operations += number_ope
+            n //= number_ope
+        number_ope += 1
+    return min_operations
