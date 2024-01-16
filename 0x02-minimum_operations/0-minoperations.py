@@ -6,7 +6,7 @@ Minimum Operations
 """
 
 
-def minOperations(n):
+def minOperations(n: int) -> int:
     """
     parameters:
     n (int): Number of characters exactly to print
@@ -16,11 +16,11 @@ def minOperations(n):
     """
     min_operation = 0
 
-    if isinstance(n, int):
-        for i in range(2, n + 1):
-            while (n % i == 0):
-                min_operation += i
-                n /= i
-        return min_operation
-    else:
+    if not isinstance(n, int):
         return 0
+
+    for i in range(2, n + 1):
+        while (n % i == 0):
+            min_operation += i
+            n /= i
+    return min_operation
