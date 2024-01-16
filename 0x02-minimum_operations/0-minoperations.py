@@ -16,10 +16,11 @@ def minOperations(n: int) -> int:
     """
     min_operation = 0
 
-    if not isinstance(n, int):
+    if n < 2:
         return 0
 
-    for i in range(2, n + 1):
+    number = n + 1
+    for i in range(2, number):
         while (n % i == 0):
             min_operation += i
             n //= i
