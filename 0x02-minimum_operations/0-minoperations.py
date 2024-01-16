@@ -22,5 +22,5 @@ def minOperations(n: int) -> int:
     for i in range(2, n + 1):
         while (n % i == 0):
             min_operation += i
-            n /= i
+            n //= i
     return min_operation
