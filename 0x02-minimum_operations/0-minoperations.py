@@ -14,14 +14,14 @@ def minOperations(n: int) -> int:
     Returns:
     - The minimum number of operations to result exactly `nH`
     """
-    min_operation = 0
-
     if n < 2:
         return 0
 
     number = n + 1
+    min_operation = 0
+
     for i in range(2, number):
-        while (n % i == 0):
+        while (n % i == 0 and n != 1):
             min_operation += i
             n //= i
     return min_operation
