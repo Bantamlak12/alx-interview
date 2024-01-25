@@ -35,8 +35,8 @@ def log_parser():
     log_pattern = re.compile(r'^(\d+\.\d+\.\d+\.\d+) - \[([^\]]+)\] '
                              r'"GET /projects/260 HTTP/1\.1" (\d+) (\d+)$')
 
-    for line in sys.stdin:
-        try:
+    try:
+        for line in sys.stdin:
             if log_pattern.match(line):
                 if count < 10:
                     file_size += int(line.split()[-1])
@@ -49,10 +49,11 @@ def log_parser():
                     status_codes.clear()
             else:
                 continue
-        except KeyboardInterrupt as e:
-            reporter(file_size, status_codes)
-            count = 0
-            status_codes.clear()
+    except KeyboardInterrupt:
+        reporter(file_size, status_codes)
+        count = 0
+        status_codes.clear()
+        raise
 
 
 if __name__ == '__main__':
