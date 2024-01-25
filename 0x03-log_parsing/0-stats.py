@@ -4,6 +4,7 @@ File: 0-stats.py
 
 Log parsing
 """
+from collections import defaultdict
 import sys
 import re
 
@@ -27,7 +28,7 @@ def log_parser():
     Reads stdin line by line and computes metrics.
     """
     total_size = 0
-    status_codes = {}
+    status_codes = defaultdict(int)
     count = 0
 
     codes = [200, 301, 400, 401, 403, 404, 405, 500]
@@ -44,10 +45,7 @@ def log_parser():
                 total_size += file_size
 
                 if status_c in codes:
-                    try:
-                        status_codes[status_c] += 1
-                    except KeyError:
-                        status_codes[status_c] = 1
+                    status_codes[status_c] += 1
                 count += 1
 
                 if count == 10:
