@@ -5,22 +5,20 @@ File: 0-stats.py
 Log parsing
 """
 import sys
-from collections import Counter
 import re
 
 
-def reporter(file_size, status_codes):
+def reporter(total_size, status_codes):
     """
     Prepares a report.
 
     parameters:
-    - file_size (int): Size of a file.
+    - total_size (int): Size of a file.
     - status_codes (int): Status of a request.
     """
-    print(f"File size: {file_size}")
-    sorted_status_codes = sorted(status_codes)
-    status_code_counted = Counter(sorted_status_codes)
-    for status, count in status_code_counted.items():
+    print(f"File size: {total_size}")
+    sorted_status_codes = sorted(status_codes.items())
+    for status, count in sorted_status_codes:
         print(f"{status}: {count}")
 
 
@@ -28,9 +26,11 @@ def log_parser():
     """
     Reads stdin line by line and computes metrics.
     """
-    file_size = 0
-    status_codes = []
+    total_size = 0
+    status_codes = {}
     count = 0
+
+    codes = [200, 301, 400, 401, 403, 404, 405, 500]
 
     log_pattern = re.compile(r'^(\d+\.\d+\.\d+\.\d+) - \[([^\]]+)\] '
                              r'"GET /projects/260 HTTP/1\.1" (\d+) (\d+)$')
@@ -38,23 +38,27 @@ def log_parser():
     try:
         for line in sys.stdin:
             if log_pattern.match(line):
-                if count < 10:
-                    file_size += int(line.split()[-1])
-                    status_codes.append(int(line.split()[-2]))
-                    count += 1
+                file_size = int(line.split()[-1])
+                status_c = int(line.split()[-2])
+
+                total_size += file_size
+
+                if status_c in codes:
+                    try:
+                        status_codes[status_c] += 1
+                    except KeyError:
+                        status_codes[status_c] = 1
+                count += 1
 
                 if count == 10:
-                    reporter(file_size, status_codes)
+                    reporter(total_size, status_codes)
                     count = 0
-                    status_codes.clear()
             else:
                 continue
     except KeyboardInterrupt:
-        reporter(file_size, status_codes)
-        count = 0
-        status_codes.clear()
+        reporter(total_size, status_codes)
         raise
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     log_parser()
