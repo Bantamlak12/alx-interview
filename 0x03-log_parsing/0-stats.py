@@ -44,7 +44,6 @@ def log_parser():
                     file_size = int(line.split()[-1])
                     status_c = line.split()[-2]
                 except ValueError:
-                    print(line)
                     continue
 
                 total_size += file_size
