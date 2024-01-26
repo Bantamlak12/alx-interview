@@ -31,28 +31,34 @@ def log_parser():
     status_codes = defaultdict(int)
     line_count = 0
 
-    codes = [200, 301, 400, 401, 403, 404, 405, 500]
+    codes = ["200", "301", "400", "401", "403", "404", "405", "500"]
 
-    log_pattern = re.compile(r'^(\d+\.\d+\.\d+\.\d+) - \[([^\]]+)\] '
-                             r'"GET /projects/260 HTTP/1\.1" (\d+) (\d+)$')
+    log_pattern = re.compile(r'^([\w\.-]+)\s*-?\s*\[([^\]]+)\] '
+                             r'"GET /projects/260 HTTP/1\.1" (\S+) (\d+)$')
 
     try:
         for line in sys.stdin:
             if log_pattern.match(line):
-                file_size = int(line.split()[-1])
-                status_c = int(line.split()[-2])
+                line_count += 1
+                try:
+                    file_size = int(line.split()[-1])
+                    status_c = line.split()[-2]
+                except ValueError:
+                    print(line)
+                    continue
 
                 total_size += file_size
 
                 if status_c in codes:
                     status_codes[status_c] += 1
-                line_count += 1
 
                 if line_count == 10:
                     reporter(total_size, status_codes)
                     line_count = 0
             else:
                 continue
+        # One line report
+        reporter(total_size, status_codes)
     except KeyboardInterrupt:
         reporter(total_size, status_codes)
         raise
