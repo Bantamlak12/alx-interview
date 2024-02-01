@@ -1,4 +1,9 @@
 #!/usr/bin/python3
+"""
+file: 0-validate_utf8.py
+
+UTF-8 Validator
+"""
 from typing import List
 
 
