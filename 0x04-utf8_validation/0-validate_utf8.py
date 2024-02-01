@@ -1,9 +1,9 @@
-#!/usr/bin/pyhton3
+#!/usr/bin/python3
 from typing import List
 
 
 def validUTF8(data: List[int]) -> bool:
-    """ Determines if a given data set represents a 
+    """ Determines if a given data set represents a
         valid UTF-8 encoding.
     """
     i = 0
