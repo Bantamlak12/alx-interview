@@ -3,6 +3,9 @@ from typing import List
 
 
 def validUTF8(data: List[int]) -> bool:
+    """ Determines if a given data set represents a 
+        valid UTF-8 encoding.
+    """
     i = 0
     while i < len(data):
         if data[i] >> 7 == 0:
