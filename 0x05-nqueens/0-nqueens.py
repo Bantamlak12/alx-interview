@@ -3,6 +3,15 @@ import sys
 
 
 def is_safe(column, row, placed_queens):
+    """
+    parameters:
+    - column (int): Column of the queen placement
+    - row (int): Row of the queen placement
+    placed_queens (list): Lists of existing queens placed
+
+    Returns:
+    - True if the placement is safe else False
+    """
     # Check for horizontal attack
     for c, r in placed_queens:
         if row == r:
@@ -17,6 +26,14 @@ def is_safe(column, row, placed_queens):
 
 
 def solve_n_queens(n):
+    """
+    parameters:
+    - n (int): Number of queens
+
+    Returns:
+    - List of list, where each inner list represent a position of
+      a queen as [column, row]
+    """
     solutions = []
     # To keep track of placed queens
     placed_queens = []
@@ -37,6 +54,7 @@ def solve_n_queens(n):
 
 
 def main():
+    """ Main """
     try:
         try:
             n = int(sys.argv[1])
