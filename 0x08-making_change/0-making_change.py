@@ -17,10 +17,10 @@ def makeChange(coins, total):
     dp = [float('inf')] * (total + 1)
     dp[0] = 0
 
-    for coin in coins:
+    for coin in coins[::-1]:
         for amount in range(coin, total + 1):
             dp[amount] = min(dp[amount], dp[amount - coin] + 1)
 
-    if isinstance(dp[-1], int):
-        return dp[-1]
-    return -1
+    if dp[-1] == float('inf'):
+        return -1
+    return dp[-1]
