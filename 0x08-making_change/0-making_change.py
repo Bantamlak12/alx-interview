@@ -1,4 +1,6 @@
 #!/usr/bin/python3
+""" Change comes from within
+"""
 
 
 def makeChange(coins, total):
@@ -9,6 +11,9 @@ def makeChange(coins, total):
     - coins: A pile of coins of different values.
     - total: Total amount to meet.
     """
+    if total == 0 or total < 0:
+        return 0
+
     dp = [float('inf')] * (total + 1)
     dp[0] = 0
 
