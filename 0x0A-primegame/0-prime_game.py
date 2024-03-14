@@ -3,21 +3,36 @@
 """
 
 
-def is_prime(num):
-    """Check if a number is prime or not"""
-    if num < 2:
-        return False
-    for i in range(2, int(num ** 0.5) + 1):
-        if num % i == 0:
-            return False
-    return True
+# def is_prime(num):
+#     """Check if a number is prime or not"""
+#     if num < 2:
+#         return False
+#     for i in range(2, int(num ** 0.5) + 1):
+#         if num % i == 0:
+#             return False
+#     return True
+
+def sieve_of_eratosthenes(limit):
+    primes = [True] * (limit + 1)
+    primes[0] = primes[1] = False
+    for p in range(2, int(limit ** 0.5) + 1):
+        if primes[p]:
+            for i in range(p * p, limit + 1, p):
+                primes[i] = False
+    return [p for p in range(2, limit + 1) if primes[p]]
 
 
-def play_game(n):
+def play_game(n, primes):
     if n == 1:
         # By default the second player wins the game
         return 'Ben'
-    prime_count = sum(1 for i in range(2, n + 1) if is_prime(i))
+
+    prime_count = 0
+    for p in primes:
+        if p <= n:
+            prime_count += 1
+        else:
+            break
     return 'Maria' if prime_count % 2 == 1 else 'Ben'
 
 
@@ -31,9 +46,15 @@ def isWinner(x, nums):
     - name of the player that won the most rounds
     - None: if the winner cannot be determined
     """
+    if x == 0:
+        return None
+
+    max_num = max(nums)
+    primes = sieve_of_eratosthenes(max_num)
+
     wins = {'Maria': 0, 'Ben': 0}
-    for i in range(x):
-        winner = play_game(nums[i])
+    for n in nums:
+        winner = play_game(n, primes)
         wins[winner] += 1
 
     if wins['Maria'] == wins['Ben']:
