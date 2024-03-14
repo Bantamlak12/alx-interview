@@ -3,15 +3,6 @@
 """
 
 
-# def is_prime(num):
-#     """Check if a number is prime or not"""
-#     if num < 2:
-#         return False
-#     for i in range(2, int(num ** 0.5) + 1):
-#         if num % i == 0:
-#             return False
-#     return True
-
 def sieve_of_eratosthenes(limit):
     primes = [True] * (limit + 1)
     primes[0] = primes[1] = False
@@ -46,7 +37,7 @@ def isWinner(x, nums):
     - name of the player that won the most rounds
     - None: if the winner cannot be determined
     """
-    if x == 0:
+    if x <= 0:
         return None
 
     max_num = max(nums)
